@@ -30,6 +30,36 @@ class Node:
         return (self.left == None and self.right == None)
 
 
+
+"""
+The better (O(n) time) solution:
+"""
+def count_unival_subtrees(root):
+    count, _ = helper(root)
+    return count
+
+# Also returns number of unival subtrees, and whether it is itself a unival subtree.
+def helper(root):
+    if root is None:
+        return 0, True
+
+    left_count, is_left_unival = helper(root.left)
+    right_count, is_right_unival = helper(root.right)
+    total_count = left_count + right_count
+
+    if is_left_unival and is_right_unival:
+        if root.left is not None and root.value != root.left.value:
+            return total_count, False
+        if root.right is not None and root.value != root.right.value:
+            return total_count, False
+        return total_count + 1, True
+    return total_count, False
+
+
+"""
+The O(n^2) time solution
+"""
+
 def is_unival_subtree(node, value):
     if node is None:
         return True
