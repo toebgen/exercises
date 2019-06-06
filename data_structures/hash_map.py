@@ -28,15 +28,17 @@ class HashMap():
         else:
             self.array[index].append((key, value))
         self.num_saved_elements += 1
+        print('fill_ratio():', self.fill_ratio())
     
 
     def __getitem__(self, key):
         """ [key] operator, return value """
         index = self.key2index(key)
         bucket = self.array[index]
-        for (_key, _value) in bucket:
-            if _key == key:
-                return _value
+        if bucket != None:
+            for (_key, _value) in bucket:
+                if _key == key:
+                    return _value
         raise KeyError('Key not found in HashMap!')
     
 
@@ -49,7 +51,7 @@ class TestHashMap(unittest.TestCase):
         self.map = HashMap()
 
         get_n_test_cases = lambda n : [(i, 'val'+str(i)) for i in range(n)]
-        self.test_cases = get_n_test_cases(10)
+        self.test_cases = get_n_test_cases(99)
 
         # The following cases will cause collisions
         self.test_cases.append((100, 'val100'))
@@ -63,10 +65,20 @@ class TestHashMap(unittest.TestCase):
         self.assertEqual(self.map[pair1[0]], pair1[1])
     
 
-    def testInsertAndAccessMany(self):
+    def testInsertAndAccessManyNoCollisions(self):
+        for key, value in self.test_cases[:10]:
+            self.map.insert(key, value)
+            self.assertEqual(self.map[key], value)
+
+
+    def testInsertAndAccessManyWithCollisions(self):
         for key, value in self.test_cases:
             self.map.insert(key, value)
             self.assertEqual(self.map[key], value)
+    
+
+    def testKeyErrorRaise(self):
+        with self.assertRaises(KeyError): self.map[1]
             
 
 if __name__ == '__main__':
