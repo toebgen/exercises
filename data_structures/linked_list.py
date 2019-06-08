@@ -1,3 +1,4 @@
+import unittest
 
 class Node():
     def __init__(self, data=None, next=None):
@@ -6,6 +7,10 @@ class Node():
     
     def __str__(self):
         return str(self.data)
+    
+    def append(self, data):
+        self.next = Node(data)
+        return self.next
 
 
 def create_singly_linked_list(n):
@@ -72,20 +77,67 @@ def add_lists(l1, l2):
     return root
 
 
-if __name__ == '__main__':
-    root = create_singly_linked_list(10)
-    print('root:', root)
-    print_singly_linked_list(root)
-    nth_node = get_nth_node(3, root)
-    print('nth_node:', nth_node)
-    delete_middle_node(nth_node)
-    print_singly_linked_list(root)
+def as_array(l):
+    if (l == None):
+        return None
+    
+    a = []
+    while(True):
+        a.append(l.data)
 
-    l1 = create_singly_linked_list(1)
-    l2 = create_singly_linked_list(1)
-    l1.data = 8
-    l2.data = 5
-    print_singly_linked_list(l1)
-    print_singly_linked_list(l2)
-    result = add_lists(l1, l2)
-    print_singly_linked_list(result)
+        if (l.next != None):
+            l = l.next
+        else:
+            break
+        
+    return a
+
+
+def as_list(arr):
+    if (len(arr) <= 0):
+        return None
+    
+    root, node = None, None
+    for d in arr:
+        if(node == None):
+            node = Node(d)
+            root = node
+        else:
+            node = node.append(d)
+    
+    return root
+
+
+
+class TestHashMap(unittest.TestCase):
+    # def setUp(self):
+    #     pass
+    
+    def testGetNthNode(self):
+        l = create_singly_linked_list(9)
+        nth = get_nth_node(3, l)
+        # print_singly_linked_list(l)
+        self.assertEqual(nth.data, 3)
+    
+    def testAsListAndAsArray(self):
+        arr = [1, 2, 3, 4, 5]
+        l = as_list(arr)
+        arr2 = as_array(l)
+        self.assertEqual(arr, arr2)
+    
+    def testDeleteMiddleNode(self):
+        arr = [1, 2, 3, 4, 5]
+        l = as_list(arr)
+        fourth_node = get_nth_node(3, l)
+        expected = [1, 2, 3, 5]
+        delete_middle_node(fourth_node)
+        self.assertEqual(expected, as_array(l))
+    
+    def testAddLists(self):
+        l1 = as_list([7, 1, 6])
+        l2 = as_list([5, 9 ,2])
+        expected = [2, 1, 9]
+        self.assertEqual(expected, as_array(add_lists(l1, l2)))
+
+if __name__ == '__main__':
+    unittest.main()
