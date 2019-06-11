@@ -17,7 +17,7 @@ class Matrix():
         else:
             if cols == None:
                 cols = 1
-            self.mat = [ [init_type] * cols] * rows
+            self.mat = [[init_type for x in range(cols)] for y in range(rows)]
     
 
     def __len__(self):
