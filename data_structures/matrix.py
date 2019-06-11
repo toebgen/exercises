@@ -34,6 +34,11 @@ class Matrix():
     
 
     def __str__(self):
+        """
+        Returns the matrix as string in the form of e.g.:
+        0, 0,
+        0, 0,
+        """
         s = ''
         for row in self.mat:
             for el in row:
@@ -49,19 +54,19 @@ class Matrix():
 
     @classmethod
     def rows(cls, rows, init_type=None):
-        """ rows x rows matrix """
+        """ Creates rows x rows matrix """
         return cls(rows=rows, cols=rows, init_type=init_type)
     
 
     @classmethod
     def rows_cols(cls, rows, cols, init_type=None):
-        """ rows x cols matrix """
+        """ Creates rows x cols matrix """
         return cls(rows=rows, cols=cols, init_type=init_type)
     
 
     @classmethod
     def identity(cls, n):
-        """ Make identity matrix (nxn) """
+        """ Creates identity matrix (nxn) """
         mat = cls(n, n, init_type=0)
         for i in range(n):
             mat.mat[i][i] = 1
@@ -69,11 +74,13 @@ class Matrix():
     
     @classmethod
     def ones(cls, n):
+        """ Creates nxn matrix, initialized with 1's """
         return cls(n, init_type=1)
     
 
     @classmethod
     def zeros(cls, n):
+        """ Creates nxn matrix, initialized with 0's """
         return cls(n, init_type=0)
     
 
@@ -97,6 +104,7 @@ class Matrix():
             for col in range(cols):
                 if row in zero_rows or col in zero_cols:
                     mat[row, col] = 0
+
 
 
 class TestMatrix(unittest.TestCase):
