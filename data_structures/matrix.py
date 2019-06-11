@@ -34,6 +34,20 @@ class Matrix():
         return self.mat[index_tuple[0]][index_tuple[1]]
     
 
+    def __setitem__(self, index_tuple, value):
+        self.mat[index_tuple[0]][index_tuple[1]] = value
+    
+
+    def __str__(self):
+        s = ''
+        for row in self.mat:
+            for el in row:
+                s += str(el) + ', '
+            s = s[:-1]
+            s += '\n'
+        return s[:-2]
+    
+
     def row(self, index):
         return self.mat[index]
     
@@ -46,6 +60,19 @@ class Matrix():
     @classmethod
     def rows_cols(cls, rows, cols, zeros=False):
         return cls(rows=rows, cols=cols, zeros=zeros)
+    
+
+    @classmethod
+    def identity(cls, n):
+        """ Make identity matrix (nxn) """
+        mat = cls(n, n, zeros=True)
+        for i in range(n):
+            mat.mat[i][i] = 1
+        return mat
+    
+    @classmethod
+    def zeros(cls, n):
+        pass
 
 
 class TestMatrix(unittest.TestCase):
@@ -68,6 +95,32 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(0, mat[2, 1])
     
     
+    def testStr(self):
+        mat = Matrix.rows_cols(3, 2, zeros=True)
+        expected = '0, 0,\n0, 0,\n0, 0'
+        self.assertEqual(expected, str(mat))
+    
+
+    def testSetItem(self):
+        mat = Matrix.rows_cols(3, 2, zeros=True)
+        mat[0, 0] = 1
+        self.assertEqual(1, mat[0, 0])
+        self.assertEqual(0, mat[0, 1])
+        self.assertEqual(0, mat[1, 0])
+
+    
+    def testIdentity(self):
+        n = 3
+        mat = Matrix.identity(n)
+        for row in range(n):
+            for col in range(n):
+                el = mat[row, col]
+                if (row == col):
+                    self.assertEqual(1, el)
+                else:
+                    self.assertEqual(0, el)
+
+
     def testLenMethod(self):
         mat = Matrix()
         self.assertEqual(0, len(mat))
