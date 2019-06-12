@@ -10,7 +10,7 @@ class MyStack():
         """ Initialize empty stack, self.top is always pointing to latest element """
         self.top = None
     
-    
+        
     def __len__(self):
         """ Naive implementation, would be better to hold a separate len member. """
         if self.top == None:

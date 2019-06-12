@@ -1,6 +1,7 @@
 import unittest
 
-from stack import MyStack
+from my_stack import MyStack
+
 
 class TestMyStack(unittest.TestCase):
     def setUp(self):
