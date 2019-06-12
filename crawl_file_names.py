@@ -105,6 +105,7 @@ def crawl_file_names(paths):
 
         # Combine in one results dictionary
         results = {
+            'paths': paths,
             'file_names': file_names,
             'unique_file_names': unique_file_names,
             'dotfiles': dotfiles,
@@ -113,7 +114,7 @@ def crawl_file_names(paths):
             'file_names_dict': file_names_dict,
             'duplicate_file_names_dict': duplicate_file_names_dict,
             'duplicate_file_size_dict': duplicate_file_size_dict,
-            'duplicate_file_hash_dict': duplicate_file_hash_dict,
+            'RESULT_duplicate_file_hash_dict': duplicate_file_hash_dict,
         }
 
         # Output results
@@ -126,7 +127,8 @@ def crawl_file_names(paths):
 
 def write_results(path, results):
     # Output results
-    output_folder_name = 'crawlfiles-' + path.split('/')[-2]
+    path_split = list(filter(None, path.split('/')))
+    output_folder_name = 'crawlfiles-' + ''.join(path_split[-2:])
     outputpath = '{prefix}/{folder_name}-{date:%Y%m%d-%H%M%S}/'.format(
         prefix='.',
         folder_name=output_folder_name,
