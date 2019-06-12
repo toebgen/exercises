@@ -4,13 +4,16 @@ class Node():
         self.data = data
         self.next = next
     
+    
     def __str__(self):
         return str(self.data)
+    
     
     def append(self, data):
         self.next = Node(data)
         return self.next
-
+    
+    
     @staticmethod
     def create_singly_linked_list(n):
         if (n < 1):
@@ -28,11 +31,13 @@ class Node():
             previous = node
         return root
 
+
     @staticmethod
     def delete_middle_node(middle_node):
         print('delete_middle_node:', middle_node.data)
         middle_node.data = middle_node.next.data
         middle_node.next = middle_node.next.next
+
 
     @staticmethod
     def print_singly_linked_list(root):
@@ -42,11 +47,13 @@ class Node():
             root = root.next
         print(root)
         
+
     @staticmethod
     def get_nth_node(n, root):
         for _ in range(n):
             root = root.next
         return root
+
 
     @staticmethod
     def add_lists(l1, l2):
@@ -75,6 +82,7 @@ class Node():
                 break
         return root
 
+
     @staticmethod
     def as_array(l):
         if (l == None):
@@ -90,6 +98,7 @@ class Node():
                 break
             
         return a
+
 
     @staticmethod
     def as_list(arr):
