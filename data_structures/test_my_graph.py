@@ -29,12 +29,12 @@ class TestMyGraph(unittest.TestCase):
                   |
                -> 3
         """
-        nodes = [MyGraphNode(i) for i in range(5)]
         graph_as_dict = {
-            nodes[0]: [nodes[1]],
-            nodes[1]: [nodes[2], nodes[3]],
-            nodes[3]: [nodes[2]],
-            nodes[4]: [nodes[2]],
+            # TODO have the int's here, instead of the actual instances?!
+            0: [1],
+            1: [2, 3],
+            3: [2],
+            4: [2],
         }
         return graph_as_dict
     
@@ -42,6 +42,13 @@ class TestMyGraph(unittest.TestCase):
     def test_instantiation(self):
         graph = MyGraph()
         self.assertIsNotNone(graph)
+    
+
+    def test_from_and_to_dict(self):
+        # Create a MyGraph from dict, and then vice versa. Expect the same content.
+        graph = MyGraph.from_dict(self.graph_as_dict)
+        graph_as_dict = graph.to_dict()
+        self.assertEqual(self.graph_as_dict, graph_as_dict)
 
 
 if __name__ == "__main__":
