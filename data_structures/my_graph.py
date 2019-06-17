@@ -14,7 +14,7 @@ class MyGraphNode():
         else:
             self.adjacents = adjacents
         self.visited = visited
-    
+
 
     def add_adjacent(self, adjacent, weight=0):
         self.adjacents[adjacent] = weight
@@ -22,11 +22,15 @@ class MyGraphNode():
 
     def clear_adjacents(self):
         self.adjacents = {}
-    
+
+
+    def reset_visited(self):
+        self.visited = False
+
 
     def get_id(self):
         return self.id
-    
+
 
     def get_weight(self, adjacent):
         return self.adjacents[adjacent]
@@ -71,6 +75,13 @@ class MyGraph():
             the_dict[node_id] = adjacent_ids
         return the_dict
     
+
+    def reset_visited(self):
+        """
+        Reset visited flags of all nodes.
+        """
+        for node in self.nodes.values():
+            node.visited = False
 
 
     @classmethod

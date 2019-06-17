@@ -79,6 +79,18 @@ class TestMyGraph(unittest.TestCase):
         graph = MyGraph.from_dict(self.graph_as_dict)
         graph_as_dict = graph.to_dict()
         self.assertEqual(self.graph_as_dict, graph_as_dict)
+        
+
+    def test_reset_visited(self):
+        self.graph.nodes[1].visited = True
+        self.graph.nodes[3].visited = True
+        self.assertTrue(self.graph.nodes[1].visited)
+        self.assertTrue(self.graph.nodes[3].visited)
+
+        self.graph.reset_visited()
+        for node in self.graph.nodes.values():
+            self.assertFalse(node.visited)
+
 
 
 if __name__ == "__main__":
