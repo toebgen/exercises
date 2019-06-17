@@ -10,10 +10,39 @@ class TestMyGraphNode(unittest.TestCase):
         self.assertIsNotNone(node)
         del node
 
-        data = 3
-        node = MyGraphNode(data)
+        id = 3
+        node = MyGraphNode(id)
         self.assertIsNotNone(node)
-        self.assertEqual(data, node.data)
+        self.assertEqual(id, node.id)
+        self.assertEqual(id, node.get_id())
+
+
+    def test_str(self):
+        id = 3
+        node = MyGraphNode(id)
+        expected_str = '3 adjacents: []'
+        self.assertEqual(expected_str,  str(node))
+
+
+    def test_add_adjacent(self):
+        """
+        Notation: node --weight--> adjacent
+        0 --0.1--> 1
+          --0.5--> 2
+        """
+        test_nodes = [MyGraphNode(i) for i in range(3)]
+        test_weights = [0.1, 0.5]
+        node = test_nodes[0]
+        node.add_adjacent(test_nodes[1], test_weights[0])
+        node.add_adjacent(test_nodes[2], test_weights[1])
+        self.assertEqual(node.get_id(), 0)
+        self.assertEqual(node.get_weight(test_nodes[1]), test_weights[0])
+        self.assertEqual(node.get_weight(test_nodes[2]), test_weights[1])
+
+        node.clear_adjacents()
+        self.assertDictEqual(node.adjacents, {})
+        self.assertEqual(node.get_id(), 0)
+
 
 
 class TestMyGraph(unittest.TestCase):
@@ -24,15 +53,16 @@ class TestMyGraph(unittest.TestCase):
 
     def create_graph_as_dict(self):
         """
-        0 -> 1 -> 2 <- 4
-                  ^
-                  |
-               -> 3
+        # 0 -> 1 -> 2 <- 4
+        #           ^
+        #           |
+        #        -> 3
+        TODO: Also test weights
         """
         graph_as_dict = {
-            # TODO have the int's here, instead of the actual instances?!
             0: [1],
             1: [2, 3],
+            2: [],
             3: [2],
             4: [2],
         }
