@@ -15,7 +15,11 @@ class MyQueue():
         if (len_latest > len_oldest):
             return len_latest
         return len_oldest
-    
+
+
+    def is_empty(self):
+        return self.latest.is_empty() and self.oldest.is_empty()
+
 
     def move(self, from_stack, to_stack):
         """ Move top element from from_stack (pop) onto to_stack (push) """

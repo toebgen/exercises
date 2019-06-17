@@ -1,7 +1,32 @@
 import unittest
 
 
-from my_graph import MyGraph, MyGraphNode
+from my_graph import MyGraph, MyGraphNode, MyGraphSearch
+
+
+class HelperMethods():
+    """ Collection of helpers. """
+
+    def create_graph_as_dict():
+        """
+        # 0 -> 1 -> 2 <- 4
+        #           ^
+        #           |
+        #        -> 3
+        TODO: Also test weights
+        """
+        graph_as_dict = {
+            0: [1],
+            1: [2, 3],
+            2: [],
+            3: [2],
+            4: [2],
+        }
+        return graph_as_dict
+    
+
+    def create_graph():
+        return MyGraph().from_dict(HelperMethods.create_graph_as_dict())
 
 
 class TestMyGraphNode(unittest.TestCase):
@@ -47,26 +72,8 @@ class TestMyGraphNode(unittest.TestCase):
 
 class TestMyGraph(unittest.TestCase):
     def setUp(self):
-        self.graph_as_dict = self.create_graph_as_dict()
+        self.graph_as_dict = HelperMethods.create_graph_as_dict()
         self.graph = MyGraph().from_dict(self.graph_as_dict)
-    
-
-    def create_graph_as_dict(self):
-        """
-        # 0 -> 1 -> 2 <- 4
-        #           ^
-        #           |
-        #        -> 3
-        TODO: Also test weights
-        """
-        graph_as_dict = {
-            0: [1],
-            1: [2, 3],
-            2: [],
-            3: [2],
-            4: [2],
-        }
-        return graph_as_dict
     
 
     def test_instantiation(self):
@@ -79,6 +86,7 @@ class TestMyGraph(unittest.TestCase):
         graph = MyGraph.from_dict(self.graph_as_dict)
         graph_as_dict = graph.to_dict()
         self.assertEqual(self.graph_as_dict, graph_as_dict)
+        self.assertEqual(self.graph.num_nodes, 5)
         
 
     def test_reset_visited(self):
@@ -91,6 +99,30 @@ class TestMyGraph(unittest.TestCase):
         for node in self.graph.nodes.values():
             self.assertFalse(node.visited)
 
+
+class TestMyGraphSearch(unittest.TestCase):
+    def setUp(self):
+        self.graph = HelperMethods.create_graph()
+
+
+    def test_breadth_first_search(self):
+        print('Test')
+
+        # TODO Move this to setUp(), to use for other searches, too
+        test_cases = [
+            #  defines if there are paths from a specific node to another
+            (self.graph.nodes[0], self.graph.nodes[2], True),
+            (self.graph.nodes[0], self.graph.nodes[3], True),
+
+            (self.graph.nodes[0], self.graph.nodes[4], False),
+            (self.graph.nodes[1], self.graph.nodes[4], False),
+            (self.graph.nodes[3], self.graph.nodes[0], False),
+        ]
+
+        for case in test_cases:
+            self.assertEqual(case[2], MyGraphSearch.breadth_first_search(
+                self.graph, case[0], case[1]
+            ))
 
 
 if __name__ == "__main__":

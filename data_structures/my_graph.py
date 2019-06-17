@@ -1,3 +1,6 @@
+from my_queue import MyQueue
+
+
 class MyGraphNode():
     """
     A single node (vertex) of a directed graph.
@@ -104,6 +107,7 @@ class MyGraph():
                 all_node_ids.add(adjacent_id)
         
         graph.nodes = {node_id: MyGraphNode(node_id) for node_id in all_node_ids}
+        graph.num_nodes = len(graph.nodes)
 
         # 2. Create the graph using the unique MyGraphNode instances
         for node_id, adjacents in the_dict.items():
@@ -112,4 +116,28 @@ class MyGraph():
                 node.add_adjacent(graph.nodes[adjacent_id])
 
         return graph
-    
+
+
+class MyGraphSearch():
+    """ Collection of graph searches. """
+
+    @staticmethod
+    def breadth_first_search(graph, start_node, destination_node):
+        """
+        BFS search. Make use of a queue, and make sure to mark nodes as
+        visited!
+        """
+        graph.reset_visited()
+
+        q = MyQueue()
+        start_node.visited = True
+        q.push(start_node)
+
+        while(q.is_empty() == False):
+            node = q.pop()
+            if (node == destination_node):
+                return True
+            for adjacent in node.adjacents:
+                q.push(adjacent)
+        
+        return False
