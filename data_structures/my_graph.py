@@ -124,7 +124,7 @@ class MyGraphSearch():
     @staticmethod
     def breadth_first_search(graph, start_node, destination_node):
         """
-        BFS search. Make use of a queue, and make sure to mark nodes as
+        BFS. Make use of a queue, and make sure to mark nodes as
         visited!
         """
         graph.reset_visited()
@@ -141,3 +141,34 @@ class MyGraphSearch():
                 q.push(adjacent)
         
         return False
+
+
+    @staticmethod
+    def depth_first_search(graph, start_node, destination_node, reset_visited=True):
+        """
+        DFS. Solve recursively, make sure to mark nodes as visited.
+        """
+        if reset_visited:
+            graph.reset_visited()
+        route_found = False
+
+        # print('Working on start_node', start_node.get_id())
+        start_node.visited = True
+
+        if (start_node == destination_node):
+            # print('Found a path!')
+            return True
+        if (len(start_node.adjacents) == 0):
+                # print("Didn't find a path!")
+                return False
+        
+        for adjacent in start_node.adjacents.keys():
+            # keys() are nodes, values() are weights
+            # print(f'\tAbout to call adjacent {start_node.get_id()}-> {adjacent.get_id()})')
+            route_found = route_found or \
+                MyGraphSearch.depth_first_search(graph, adjacent,
+                destination_node, reset_visited=False)
+            if route_found:
+                break
+        
+        return route_found
