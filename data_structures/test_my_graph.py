@@ -105,7 +105,7 @@ class TestMyGraphSearch(unittest.TestCase):
         self.graph = HelperMethods.create_graph()
 
         self.test_cases = [
-            #  defines if there are paths from a specific node to another
+            #  Defines all im/possible paths in self.graph
             (self.graph.nodes[0], self.graph.nodes[0], True),
             (self.graph.nodes[0], self.graph.nodes[1], True),
             (self.graph.nodes[0], self.graph.nodes[2], True),
@@ -139,18 +139,19 @@ class TestMyGraphSearch(unittest.TestCase):
 
 
     def test_breadth_first_search(self):
+        """ Test all possible paths in graph """
         for case in self.test_cases:
             self.assertEqual(case[2], MyGraphSearch.breadth_first_search(
                 self.graph, case[0], case[1]
-            ))
+            ), msg=f'Failed case (src->dest): {case[0].get_id()}->{case[1].get_id()}')
 
 
     def test_depth_fist_search(self):
+        """ Test all possible paths in graph """
         for case in self.test_cases:
-            # print('\n##### Testing Start:', case[0].get_id(), ', dest:', case[1].get_id(), '#####')
             self.assertEqual(case[2], MyGraphSearch.depth_first_search(
                 self.graph, case[0], case[1]
-            ))
+            ), msg=f'Failed case (src->dest): {case[0].get_id()}->{case[1].get_id()}')
 
 
 if __name__ == "__main__":
