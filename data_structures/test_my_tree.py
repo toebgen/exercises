@@ -48,6 +48,16 @@ class TestMyBinaryTree(unittest.TestCase):
         self.assertEqual(tree.right.right.key, 9)
 
 
+    def test_list_of_depths(self):
+        tree = MyBinaryTree.from_sorted_list(self.sorted_list)
+        expected_list_of_depths = {
+            0: [3],
+            1: [1, 8],
+            2: [2, 4, 9]
+        }
+        list_of_depths = tree.list_of_depths()
+        self.assertDictEqual(expected_list_of_depths, list_of_depths)
+
 
 if __name__ == "__main__":
     unittest.main()

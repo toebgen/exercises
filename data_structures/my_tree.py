@@ -1,4 +1,7 @@
 import math
+from collections import defaultdict
+
+from my_queue import MyQueue
 
 
 class MyBinaryTree():
@@ -41,3 +44,23 @@ class MyBinaryTree():
         root.right = MyBinaryTree.from_sorted_list(sorted_list, mid_idx+1, end)
         
         return root
+
+
+    def list_of_depths(self):
+        """
+        Create a linked list of all the nodes at each depth.
+        For example, a tree with depth D has D linked lists.
+        """
+        queue = MyQueue()
+        the_dict = defaultdict(list)
+        level = 0
+        queue.push((self, level))
+        while (queue.is_empty() == False):
+            node, level = queue.pop()
+            the_dict[level].append(node.key)
+            if (node.left != None):
+                queue.push((node.left, level+1))
+            if (node.right != None):
+                queue.push((node.right, level+1))
+
+        return the_dict
