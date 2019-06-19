@@ -73,8 +73,8 @@ class MyGraph():
         the_dict = {}
         for node_id, node in self.nodes.items():
             adjacent_ids = []
-            for adjacent in node.adjacents:
-                adjacent_ids.append(adjacent.id)
+            for adjacent_node, adjacent_weight in node.adjacents.items():
+                adjacent_ids.append((adjacent_node.id, adjacent_weight))
             the_dict[node_id] = adjacent_ids
         return the_dict
     
@@ -101,19 +101,19 @@ class MyGraph():
         # TODO: Make more efficient, i.e. don't run through dict twice!
         # 1. Get all occurring node ID's
         all_node_ids = set()
-        for node_id, adjacent_ids in the_dict.items():
+        for node_id, adjacents in the_dict.items():
             all_node_ids.add(node_id)
-            for adjacent_id in adjacent_ids:
+            for adjacent_id, adjacent_weight in adjacents:
                 all_node_ids.add(adjacent_id)
         
         graph.nodes = {node_id: MyGraphNode(node_id) for node_id in all_node_ids}
         graph.num_nodes = len(graph.nodes)
 
         # 2. Create the graph using the unique MyGraphNode instances
-        for node_id, adjacents in the_dict.items():
+        for node_id, adjacents_with_weights in the_dict.items():
             node = graph.nodes[node_id]
-            for adjacent_id in adjacents:
-                node.add_adjacent(graph.nodes[adjacent_id])
+            for adjacent_id, adjacent_weight in adjacents_with_weights:
+                node.add_adjacent(graph.nodes[adjacent_id], adjacent_weight)
 
         return graph
 
@@ -126,6 +126,7 @@ class MyGraphSearch():
         """
         BFS. Make use of a queue, and make sure to mark nodes as
         visited!
+        TODO: Return the path and its cost.
         """
         graph.reset_visited()
 
@@ -147,6 +148,7 @@ class MyGraphSearch():
     def depth_first_search(graph, start_node, destination_node, reset_visited=True):
         """
         DFS. Solve recursively, make sure to mark nodes as visited.
+        TODO: Return the path and its cost.
         """
         if reset_visited:
             graph.reset_visited()
