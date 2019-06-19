@@ -34,7 +34,6 @@ class Node():
 
     @staticmethod
     def delete_middle_node(middle_node):
-        print('delete_middle_node:', middle_node.data)
         middle_node.data = middle_node.next.data
         middle_node.next = middle_node.next.next
 
@@ -57,7 +56,6 @@ class Node():
 
     @staticmethod
     def add_lists(l1, l2):
-        print('add_lists')
         root, prev = None, None
         carry = 0
         while (l1 != None):
