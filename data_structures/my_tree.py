@@ -19,7 +19,7 @@ class MyBinaryTree():
 
 
     @classmethod
-    def from_sorted_list(cls, sorted_list):
+    def from_sorted_list(cls, sorted_list, start=None, end=None):
         """
         Given a sorted (increasing order) list with unique integer elements, create a binary search tree with minimal height.
         """
@@ -27,19 +27,17 @@ class MyBinaryTree():
         if (length <= 0):
             return None
         
-        get_mid_idx = lambda first, last: int(first + (last-first)/2)
-        mid_idx = get_mid_idx(0, length)
-        if (length%2 != 0 and length > 1):
-            # Ensure the balancing of the tree to be filled from the left,
-            # hence use the right value in case of an even sized array (where
-            # there is no 'real' middle index).
-            mid_idx += 1
-
+        # Initialize indices on first call
+        if (start == None):
+            start = 0
+        if (end == None):
+            end = length - 1
+        if (end < start):
+            return None
+        
+        mid_idx = int((start+end) / 2)
         root = MyBinaryTree(sorted_list[mid_idx])
-        root.left = MyBinaryTree.from_sorted_list(sorted_list[:mid_idx])
-        if (mid_idx+1 < length):
-            root.right = MyBinaryTree.from_sorted_list(sorted_list[mid_idx+1:])
-        else:
-            root.right = None
-
+        root.left = MyBinaryTree.from_sorted_list(sorted_list, start, mid_idx-1)
+        root.right = MyBinaryTree.from_sorted_list(sorted_list, mid_idx+1, end)
+        
         return root
