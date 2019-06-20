@@ -82,6 +82,15 @@ class MyMatrix():
         return cls(n, init_type=0)
     
 
+    @classmethod
+    def ascending_ints(cls, n, start_from=0):
+        """ Creates nxn matrix, initialized with ascending int's """
+        mat = cls(n, n, init_type=0)
+        for i in range(n*n):
+            mat.mat[int(i/n)][i%n] = i + start_from
+        return mat
+    
+
     @staticmethod
     def zero_matrix(mat):
         """

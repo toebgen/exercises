@@ -66,6 +66,29 @@ class TestMatrix(unittest.TestCase):
         for i in range(n):
             for j in range(n):
                 self.assertEqual(0, mat[i, j])
+    
+
+    def test_ascending_ints(self):
+        n = 4
+        mat = MyMatrix.ascending_ints(n)
+        self.assertEqual(n*n, len(mat))
+        self.assertEqual(0,  mat[0, 0])
+        self.assertEqual(1,  mat[0, 1])
+        self.assertEqual(2,  mat[0, 2])
+        self.assertEqual(9,  mat[2, 1])
+        self.assertEqual(14,  mat[3, 2])
+        self.assertEqual(15,  mat[3, 3])
+        del mat
+
+        n = 3
+        mat = MyMatrix.ascending_ints(n, 1)
+        self.assertEqual(n*n, len(mat))
+        self.assertEqual(1,  mat[0, 0])
+        self.assertEqual(2,  mat[0, 1])
+        self.assertEqual(3,  mat[0, 2])
+        self.assertEqual(7,  mat[2, 0])
+        self.assertEqual(8,  mat[2, 1])
+        self.assertEqual(9,  mat[2, 2])
 
 
     def test_len(self):
@@ -99,6 +122,10 @@ class TestMatrix(unittest.TestCase):
                     self.assertEqual(0, mat[row, col])
                 else:
                     self.assertEqual(1, mat[row, col])
+
+
+    def test_rotate(self):
+        pass
 
 
 if __name__ == '__main__':
