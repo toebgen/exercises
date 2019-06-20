@@ -1,10 +1,10 @@
 import unittest
 
-from hash_map import HashMap
+from my_hash_map import MyHashMap
 
-class TestHashMap(unittest.TestCase):
+class TestMyHashMap(unittest.TestCase):
     def setUp(self):
-        self.map = HashMap()
+        self.map = MyHashMap()
 
         get_n_test_cases = lambda n : [(i, 'val'+str(i)) for i in range(n)]
         self.test_cases = get_n_test_cases(99)

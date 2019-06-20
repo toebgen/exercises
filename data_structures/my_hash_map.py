@@ -1,5 +1,5 @@
 
-class HashMap():
+class MyHashMap():
     def __init__(self, *args, **kwargs):
         # Instantiate initial fixed size array
         self.array_length = 32

@@ -1,6 +1,6 @@
 import unittest
 
-from matrix import MyMatrix
+from my_matrix import MyMatrix
 
 
 class TestMatrix(unittest.TestCase):
