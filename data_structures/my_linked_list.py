@@ -13,6 +13,25 @@ class MyLinkedList():
             node = node.next
         result_str += str(node.key) + ']'
         return result_str
+
+
+    def __eq__(self, other_list):
+        if (other_list == None):
+            return False
+        
+        runner_self, runner_other = self, other_list
+        while((runner_self != None) and (runner_other != None)):
+            # Every key needs to be the same
+            if (runner_self.key == runner_other.key):
+                runner_self = runner_self.next
+                runner_other = runner_other.next
+            else:
+                return False
+        
+        if ((runner_self == None) and (runner_other == None)):
+            return True
+        else:
+            return False
     
     
     def append(self, key):

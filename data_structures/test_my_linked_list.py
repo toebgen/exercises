@@ -11,6 +11,20 @@ class TestMyLinkedList(unittest.TestCase):
         self.assertEqual(str(linked_list), expected_string)
 
 
+    def test_eq(self):
+        linked_list_1 = MyLinkedList.create_from_list([1, 2, 3])
+        linked_list_2 = MyLinkedList.create_from_list([1, 2, 3])
+        self.assertEqual(linked_list_1, linked_list_2)
+
+        linked_list_1 = MyLinkedList.create_from_list([1, 2])
+        linked_list_2 = MyLinkedList.create_from_list([1, 2, 3])
+        self.assertNotEqual(linked_list_1, linked_list_2)
+
+        linked_list_1 = MyLinkedList.create_from_list([1, 2, 3])
+        linked_list_2 = MyLinkedList.create_from_list([1, 2])
+        self.assertNotEqual(linked_list_1, linked_list_2)
+
+
     def test_append(self):
         expected_list = [1, 2]
         linked_list = MyLinkedList.create_from_list(expected_list[:1])

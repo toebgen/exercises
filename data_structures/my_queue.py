@@ -36,4 +36,3 @@ class MyQueue():
         while(self.latest.is_empty() != True):
             self.move(self.latest, self.oldest)
         return self.oldest.pop()
-    
