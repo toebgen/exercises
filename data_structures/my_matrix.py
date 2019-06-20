@@ -1,5 +1,5 @@
 
-class Matrix():
+class MyMatrix():
     """
     Class defining matrix as list of rows, containing list of values
     """

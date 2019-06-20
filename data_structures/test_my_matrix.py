@@ -1,37 +1,37 @@
 import unittest
 
-from matrix import Matrix
+from matrix import MyMatrix
 
 
 class TestMatrix(unittest.TestCase):
     def test_instantiation(self):
-        mat = Matrix()
+        mat = MyMatrix()
         self.assertEqual(0, len(mat))
 
         n = 3
-        mat = Matrix.rows(n)
+        mat = MyMatrix.rows(n)
         self.assertEqual(n*n, len(mat))
         self.assertEqual(None, mat[0, 0])
 
-        mat = Matrix.rows(n, init_type=0)
+        mat = MyMatrix.rows(n, init_type=0)
         self.assertEqual(n*n, len(mat))
         self.assertEqual(0, mat[0, 0])
 
-        mat = Matrix.rows_cols(3, 2)
+        mat = MyMatrix.rows_cols(3, 2)
         self.assertEqual(None, mat[2, 1])
 
-        mat = Matrix.rows_cols(3, 2, init_type=0)
+        mat = MyMatrix.rows_cols(3, 2, init_type=0)
         self.assertEqual(0, mat[2, 1])
     
     
     def test_str(self):
-        mat = Matrix.rows_cols(3, 2, init_type=0)
+        mat = MyMatrix.rows_cols(3, 2, init_type=0)
         expected = '0, 0,\n0, 0,\n0, 0'
         self.assertEqual(expected, str(mat))
     
 
     def test_set_item(self):
-        mat = Matrix.rows_cols(3, 2, init_type=0)
+        mat = MyMatrix.rows_cols(3, 2, init_type=0)
         mat[0, 0] = 1
         self.assertEqual(1, mat[0, 0])
         self.assertEqual(0, mat[0, 1])
@@ -40,7 +40,7 @@ class TestMatrix(unittest.TestCase):
     
     def test_identity(self):
         n = 3
-        mat = Matrix.identity(n)
+        mat = MyMatrix.identity(n)
         for row in range(n):
             for col in range(n):
                 el = mat[row, col]
@@ -52,7 +52,7 @@ class TestMatrix(unittest.TestCase):
 
     def test_ones(self):
         n = 3
-        mat = Matrix.ones(n)
+        mat = MyMatrix.ones(n)
         self.assertEqual(n*n, len(mat))
         for i in range(n):
             for j in range(n):
@@ -61,7 +61,7 @@ class TestMatrix(unittest.TestCase):
 
     def test_zeros(self):
         n = 3
-        mat = Matrix.zeros(n)
+        mat = MyMatrix.zeros(n)
         self.assertEqual(n*n, len(mat))
         for i in range(n):
             for j in range(n):
@@ -69,28 +69,28 @@ class TestMatrix(unittest.TestCase):
 
 
     def test_len(self):
-        mat = Matrix()
+        mat = MyMatrix()
         self.assertEqual(0, len(mat))
 
         n = 3
-        mat = Matrix.rows(n)
+        mat = MyMatrix.rows(n)
         self.assertEqual(n*n, len(mat))
 
-        mat = Matrix.rows_cols(3, 2)
+        mat = MyMatrix.rows_cols(3, 2)
         self.assertEqual(6, len(mat))
     
     
     def test_shape(self):
-        mat = Matrix.rows_cols(3, 2)
+        mat = MyMatrix.rows_cols(3, 2)
         self.assertEqual((3, 2), mat.shape())
     
 
     def test_zero_matrix(self):
         n = 3
-        mat = Matrix.ones(n)
+        mat = MyMatrix.ones(n)
         zero_index = 1
         mat[zero_index, zero_index] = 0
-        Matrix.zero_matrix(mat)
+        MyMatrix.zero_matrix(mat)
         # print('\n')
         # print(mat)
         for row in range(n):
