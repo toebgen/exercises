@@ -29,6 +29,25 @@ class MyMatrix():
 
     def __setitem__(self, index_tuple, value):
         self.mat[index_tuple[0]][index_tuple[1]] = value
+
+
+    def __eq__(self, other):
+        if not isinstance(other, MyMatrix):
+            raise TypeError(f'Given object is of type {type(other)}, which cannot be compared to {type(self)}!')
+        
+        # Check dimensions
+        if (self.shape() != other.shape()):
+            return False
+        
+        # Check content
+        rows, cols = self.shape()
+        for i in range(rows):
+            for j in range(cols):
+                if self.mat[i][j] != other.mat[i][j]:
+                    return False
+
+        return True
+        
     
 
     def __str__(self):

@@ -37,6 +37,23 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(0, mat[0, 1])
         self.assertEqual(0, mat[1, 0])
 
+
+    def test_eq(self):
+        matrix_1 = MyMatrix.identity(3)
+        
+        i = int(1)
+        with self.assertRaises(TypeError):
+            matrix_1 == i
+        
+        matrix_2 = MyMatrix.identity(2)
+        self.assertNotEqual(matrix_1, matrix_2)
+
+        matrix_3 = MyMatrix.identity(3)
+        self.assertEqual(matrix_1, matrix_3)
+
+        matrix_4 = MyMatrix.ones(3)
+        self.assertNotEqual(matrix_1, matrix_4)
+
     
     def test_identity(self):
         n = 3
