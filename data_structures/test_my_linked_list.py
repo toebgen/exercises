@@ -1,36 +1,44 @@
 import unittest
 
-from my_linked_list import MyNode
+from my_linked_list import MyLinkedList
 
-class TestHashMap(unittest.TestCase):
-    # def setUp(self):
-    #     pass
+
+class TestMyLinkedList(unittest.TestCase):
+
+    def test_str(self):
+        linked_list = MyLinkedList.create_from_list([1, 2, 3])
+        expected_string = '[1, 2, 3]'
+        self.assertEqual(str(linked_list), expected_string)
+
     
     def test_get_nth_node(self):
-        l = MyNode.create_singly_linked_list(9)
-        nth = MyNode.get_nth_node(3, l)
-        # print_singly_linked_list(l)
-        self.assertEqual(nth.data, 3)
+        l = MyLinkedList.create_with_n_elements(9)
+        nth = MyLinkedList.get_nth_node(3, l)
+        self.assertEqual(nth.key, 3)
     
-    def test_as_list_and_as_array(self):
+
+    def test_create_from_list_and_as_array(self):
         arr = [1, 2, 3, 4, 5]
-        l = MyNode.as_list(arr)
-        arr2 = MyNode.as_array(l)
+        l = MyLinkedList.create_from_list(arr)
+        arr2 = MyLinkedList.as_list(l)
         self.assertEqual(arr, arr2)
     
+
     def test_delete_middle_node(self):
         arr = [1, 2, 3, 4, 5]
-        l = MyNode.as_list(arr)
-        fourth_node = MyNode.get_nth_node(3, l)
+        l = MyLinkedList.create_from_list(arr)
+        fourth_node = MyLinkedList.get_nth_node(3, l)
         expected = [1, 2, 3, 5]
-        MyNode.delete_middle_node(fourth_node)
-        self.assertEqual(expected, MyNode.as_array(l))
+        MyLinkedList.delete_middle_node(fourth_node)
+        self.assertEqual(expected, MyLinkedList.as_list(l))
     
+
     def test_add_lists(self):
-        l1 = MyNode.as_list([7, 1, 6])
-        l2 = MyNode.as_list([5, 9 ,2])
+        l1 = MyLinkedList.create_from_list([7, 1, 6])
+        l2 = MyLinkedList.create_from_list([5, 9 ,2])
         expected = [2, 1, 9]
-        self.assertEqual(expected, MyNode.as_array(MyNode.add_lists(l1, l2)))
+        self.assertEqual(expected, MyLinkedList.as_list(MyLinkedList.add_lists(l1, l2)))
+
 
 if __name__ == '__main__':
     unittest.main()

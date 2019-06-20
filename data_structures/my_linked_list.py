@@ -1,32 +1,39 @@
 
-class MyNode():
-    def __init__(self, data=None, next=None):
-        self.data = data
+class MyLinkedList():
+    def __init__(self, key=None, next=None):
+        self.key = key
         self.next = next
     
     
     def __str__(self):
-        return str(self.data)
+        result_str = '['
+        node = self
+        while(node.next != None):
+            result_str += str(node.key) + ', '
+            node = node.next
+        result_str += str(node.key) + ']'
+        return result_str
     
     
-    def append(self, data):
-        self.next = MyNode(data)
+    def append(self, key):
+        """ Appends key to self """
+        self.next = MyLinkedList(key)
         return self.next
     
     
     @staticmethod
-    def create_singly_linked_list(n):
+    def create_with_n_elements(n):
         if (n < 1):
             return None
-        root = MyNode()
+        root = MyLinkedList()
         node = root
         previous = None
         for i in range(n):
             if (previous == None):
-                node.data = i
+                node.key = i
                 node.next = None
             else:
-                node = MyNode(i)
+                node = MyLinkedList(i, None)
                 previous.next = node
             previous = node
         return root
@@ -34,7 +41,7 @@ class MyNode():
 
     @staticmethod
     def delete_middle_node(middle_node):
-        middle_node.data = middle_node.next.data
+        middle_node.key = middle_node.next.key
         middle_node.next = middle_node.next.next
 
 
@@ -59,13 +66,13 @@ class MyNode():
         root, prev = None, None
         carry = 0
         while (l1 != None):
-            result = MyNode()
+            result = MyLinkedList()
             if (root == None):
                 root = result
             
-            digit_sum = l1.data + l2.data + carry
+            digit_sum = l1.key + l2.key + carry
             carry = int(digit_sum / 10)
-            result.data = digit_sum % 10
+            result.key = digit_sum % 10
 
             if (prev != None):
                 prev.next = result
@@ -75,38 +82,39 @@ class MyNode():
                 l2 = l2.next
             else:
                 if (carry != 0):
-                    result = MyNode(carry)
+                    result = MyLinkedList(carry)
                     prev.next = result
                 break
         return root
 
 
     @staticmethod
-    def as_array(l):
-        if (l == None):
+    def as_list(the_linked_list):
+        """ Returns given  MyLinkedList as (python) list """
+        if (the_linked_list == None):
             return None
         
-        a = []
+        result_list = []
         while(True):
-            a.append(l.data)
+            result_list.append(the_linked_list.key)
 
-            if (l.next != None):
-                l = l.next
+            if (the_linked_list.next != None):
+                the_linked_list = the_linked_list.next
             else:
                 break
             
-        return a
+        return result_list
 
 
     @staticmethod
-    def as_list(arr):
-        if (len(arr) <= 0):
+    def create_from_list(the_list):
+        if (len(the_list) <= 0):
             return None
         
         root, node = None, None
-        for d in arr:
+        for d in the_list:
             if(node == None):
-                node = MyNode(d)
+                node = MyLinkedList(d)
                 root = node
             else:
                 node = node.append(d)

@@ -1,4 +1,4 @@
-from my_linked_list import MyNode
+from my_linked_list import MyLinkedList
 
 
 class MyStack():
@@ -29,7 +29,7 @@ class MyStack():
         Push in front of current top.
         Example: Pushing 1, 2 and then 3 results in: 3->2->1.
         """
-        new = MyNode(data)
+        new = MyLinkedList(key)
         new.next = self.top
         self.top = new
         return self.top
