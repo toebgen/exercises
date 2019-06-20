@@ -48,6 +48,22 @@ class MyMatrix():
 
     def row(self, index):
         return self.mat[index]
+
+
+    def rotate(self):
+        """ Rotates the square matrix by 90 degrees clockwise """
+        # TODO: Can also be done in place by swapping elementwise
+        rows, cols = self.shape()
+        if (rows != cols) or (rows == 0) or (rows == 1):
+            return
+
+        rotated_matrix = MyMatrix(rows)
+        for row in range(rows):
+            for col in range(cols):
+                val = self.mat[row][col]
+                rotated_matrix.mat[col][cols-1-row] = val
+        
+        self.mat = rotated_matrix.mat
     
 
     @classmethod
