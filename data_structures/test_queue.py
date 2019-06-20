@@ -47,7 +47,7 @@ class TestMyQueue(unittest.TestCase):
             self.assertEqual(i, len(self.queue))
             self.assertEqual(i, len(self.queue.latest))
             self.assertEqual(0, len(self.queue.oldest))
-            self.assertEqual(i, self.queue.latest.top.data)
+            self.assertEqual(i, self.queue.latest.top.key)
 
 
     def test_pop(self):
@@ -58,7 +58,7 @@ class TestMyQueue(unittest.TestCase):
             self.assertEqual(0, len(self.filled_queue.latest))
             self.assertEqual(self.len_test_data - i, len(self.filled_queue.oldest))
             if (i < self.len_test_data):
-                self.assertEqual(i+1, self.filled_queue.oldest.top.data)
+                self.assertEqual(i+1, self.filled_queue.oldest.top.key)
 
 
 if __name__ == '__main__':

@@ -24,7 +24,7 @@ class MyStack():
         return len
     
     
-    def push(self, data):
+    def push(self, key):
         """
         Push in front of current top.
         Example: Pushing 1, 2 and then 3 results in: 3->2->1.
@@ -37,13 +37,13 @@ class MyStack():
 
     def pop(self):
         """ Remove and return latest element (top) from stack """
-        data = self.top.data
+        key = self.top.key
         self.top = self.top.next
-        return data
+        return key
     
 
     def peek(self):
-        return self.top.data
+        return self.top.key
     
 
     def is_empty(self):

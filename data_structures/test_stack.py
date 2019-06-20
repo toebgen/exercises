@@ -26,7 +26,7 @@ class TestMyStack(unittest.TestCase):
         for i in self.test_data:
             self.stack.push(i)
             self.assertEqual(i, len(self.stack))
-            self.assertEqual(i, self.stack.top.data)
+            self.assertEqual(i, self.stack.top.key)
     
 
     def test_pop(self):

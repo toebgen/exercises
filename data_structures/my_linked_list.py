@@ -17,8 +17,16 @@ class MyLinkedList():
     
     def append(self, key):
         """ Appends key to self """
-        self.next = MyLinkedList(key)
-        return self.next
+        started_from = self
+        runner = self
+        while(runner.next != None):
+            runner = runner.next
+        runner.next = MyLinkedList(key=key, next=None)
+        return started_from
+
+
+    def to_list(self):
+        return self.as_list(self)
     
     
     @staticmethod

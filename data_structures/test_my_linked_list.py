@@ -10,6 +10,18 @@ class TestMyLinkedList(unittest.TestCase):
         expected_string = '[1, 2, 3]'
         self.assertEqual(str(linked_list), expected_string)
 
+
+    def test_append(self):
+        expected_list = [1, 2]
+        linked_list = MyLinkedList.create_from_list(expected_list[:1])
+        linked_list.append(expected_list[-1])
+        self.assertListEqual(expected_list, linked_list.to_list())
+
+        expected_list = [1, 2, 3]
+        linked_list = MyLinkedList.create_from_list(expected_list[:2])
+        linked_list.append(expected_list[-1])
+        self.assertListEqual(expected_list, linked_list.to_list())
+
     
     def test_get_nth_node(self):
         l = MyLinkedList.create_with_n_elements(9)
