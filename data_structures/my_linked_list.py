@@ -1,5 +1,5 @@
 
-class Node():
+class MyNode():
     def __init__(self, data=None, next=None):
         self.data = data
         self.next = next
@@ -10,7 +10,7 @@ class Node():
     
     
     def append(self, data):
-        self.next = Node(data)
+        self.next = MyNode(data)
         return self.next
     
     
@@ -18,7 +18,7 @@ class Node():
     def create_singly_linked_list(n):
         if (n < 1):
             return None
-        root = Node()
+        root = MyNode()
         node = root
         previous = None
         for i in range(n):
@@ -26,7 +26,7 @@ class Node():
                 node.data = i
                 node.next = None
             else:
-                node = Node(i)
+                node = MyNode(i)
                 previous.next = node
             previous = node
         return root
@@ -59,7 +59,7 @@ class Node():
         root, prev = None, None
         carry = 0
         while (l1 != None):
-            result = Node()
+            result = MyNode()
             if (root == None):
                 root = result
             
@@ -75,7 +75,7 @@ class Node():
                 l2 = l2.next
             else:
                 if (carry != 0):
-                    result = Node(carry)
+                    result = MyNode(carry)
                     prev.next = result
                 break
         return root
@@ -106,7 +106,7 @@ class Node():
         root, node = None, None
         for d in arr:
             if(node == None):
-                node = Node(d)
+                node = MyNode(d)
                 root = node
             else:
                 node = node.append(d)
