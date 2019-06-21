@@ -1,6 +1,5 @@
 import unittest
 
-
 from my_graph import MyGraph, MyGraphNode, MyGraphSearch
 
 
