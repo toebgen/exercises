@@ -1,0 +1,14 @@
+#!/bin/bash
+
+python -m unittest discover data_structures
+retVal=$?
+if [ $retVal -ne 0 ]
+then
+	echo "> Tests DID NOT pass! Commit aborted!"
+	exit 1
+else
+	echo "> Tests passed!"
+fi
+
+echo "Ready to commit!"
+exit 0
