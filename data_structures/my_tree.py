@@ -98,3 +98,26 @@ class MyBinaryTree():
         except AttributeError:
             return False
         return True
+
+
+    def is_search_tree(self, min_allowed=None, max_allowed=None):
+        """
+        Checks if tree is binary search tree.
+        I.e., the condition left <= self < right must be met, as well as
+        the biggest on the left must be <= current.
+        """
+        if (min_allowed is None): min_allowed = float("-inf")
+        if (max_allowed is None): max_allowed = float("inf")
+        
+        if (self.key < min_allowed):
+            return False
+        if (self.key >= max_allowed):
+            return False
+        
+        is_bst = True
+        if (self.left is not None):
+            is_bst = is_bst and self.left.is_search_tree(min_allowed, min(self.key, max_allowed))
+        if (self.right is not None):
+            is_bst = is_bst and self.right.is_search_tree(max(self.key, min_allowed), max_allowed)
+        
+        return is_bst

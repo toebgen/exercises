@@ -25,6 +25,30 @@ class TestMyBinaryTree(unittest.TestCase):
                 MyBinaryTree(4), MyBinaryTree(5))
         )
 
+        #                 20
+        #         10               30
+        #    5        15
+        #  3   7         17
+        self.binary_search_tree = MyBinaryTree(20,
+            MyBinaryTree(10,
+                MyBinaryTree(5,
+                    MyBinaryTree(3), MyBinaryTree(7)),
+                MyBinaryTree(15,
+                    None, MyBinaryTree(17))
+            ),
+            MyBinaryTree(30)
+        )
+
+        #                 20
+        #         10               30
+        #             25
+        self.non_binary_search_tree = MyBinaryTree(20,
+            MyBinaryTree(10,
+                None, MyBinaryTree(25)
+            ),
+            MyBinaryTree(30)
+        )
+
 
     def test_instantiation(self):
         tree = MyBinaryTree()
@@ -97,6 +121,10 @@ class TestMyBinaryTree(unittest.TestCase):
         self.assertFalse(self.non_balanced_tree.is_balanced())
         self.assertTrue(self.non_balanced_tree.left.is_balanced())
 
+
+    def test_is_search_tree(self):
+        self.assertTrue(self.binary_search_tree.is_search_tree())
+        self.assertFalse(self.non_binary_search_tree.is_search_tree())
 
 
 if __name__ == "__main__":
