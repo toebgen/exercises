@@ -6,6 +6,24 @@ from my_tree import MyBinaryTree
 class TestMyBinaryTree(unittest.TestCase):
     def setUp(self):
         self.sorted_list = [1, 2, 3, 4, 8, 9]
+        
+        #           1
+        #       2       3
+        #     4  5     6
+        self.balanced_tree = MyBinaryTree(1,
+            MyBinaryTree(2,
+                MyBinaryTree(4), MyBinaryTree(5)),
+            MyBinaryTree(3,
+                MyBinaryTree(6), None)
+        )
+
+        #           1
+        #       2
+        #     4  5
+        self.non_balanced_tree = MyBinaryTree(1,
+            MyBinaryTree(2,
+                MyBinaryTree(4), MyBinaryTree(5))
+        )
 
 
     def test_instantiation(self):
@@ -57,6 +75,28 @@ class TestMyBinaryTree(unittest.TestCase):
         }
         list_of_depths = tree.list_of_depths()
         self.assertDictEqual(expected_list_of_depths, list_of_depths)
+
+
+    def test_height_of_balanced(self):
+        self.assertEqual(self.balanced_tree.height_of_balanced(), 3)
+        self.assertEqual(self.balanced_tree.left.height_of_balanced(), 2)
+        self.assertEqual(self.balanced_tree.left.left.height_of_balanced(), 1)
+        self.assertEqual(self.balanced_tree.left.right.height_of_balanced(), 1)
+        self.assertEqual(self.balanced_tree.right.height_of_balanced(), 2)
+        self.assertEqual(self.balanced_tree.right.left.height_of_balanced(), 1)
+
+        with self.assertRaises(AttributeError):
+            self.non_balanced_tree.height_of_balanced()
+
+
+    def test_is_balanced(self):
+        self.assertTrue(self.balanced_tree.is_balanced())
+        self.assertTrue(self.balanced_tree.left.is_balanced())
+        self.assertTrue(self.balanced_tree.right.is_balanced())
+
+        self.assertFalse(self.non_balanced_tree.is_balanced())
+        self.assertTrue(self.non_balanced_tree.left.is_balanced())
+
 
 
 if __name__ == "__main__":

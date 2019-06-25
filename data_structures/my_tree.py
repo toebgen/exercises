@@ -54,6 +54,7 @@ class MyBinaryTree():
         queue = MyQueue()
         the_dict = defaultdict(list)
         level = 0
+        
         queue.push((self, level))
         while (queue.is_empty() == False):
             node, level = queue.pop()
@@ -62,5 +63,38 @@ class MyBinaryTree():
                 queue.push((node.left, level+1))
             if (node.right != None):
                 queue.push((node.right, level+1))
-
+        
         return the_dict
+
+
+    def height_of_balanced(self):
+        """
+        Returns height of tree. Raises Attribute Error if unbalanced tree given.
+        TODO: Certainly not the best way of solving it right now...
+        """
+        if (self.left is None and self.right is None):
+            return 1  # Leaf, recursion base case
+        
+        height_left, height_right = 0, 0
+        if (self.left is not None):
+            height_left = self.left.height_of_balanced()
+        if (self.right is not None):
+            height_right = self.right.height_of_balanced()
+
+        if (abs(height_left - height_right) > 1):
+            raise AttributeError
+        height = max(height_left, height_right) + 1
+
+        return height
+
+
+    def is_balanced(self):
+        """
+        Tree is balanced if the heights of 2 sub-trees of any node never differ
+        by more than 1.
+        """
+        try:
+            self.height_of_balanced()
+        except AttributeError:
+            return False
+        return True
