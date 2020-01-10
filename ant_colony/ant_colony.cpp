@@ -10,111 +10,136 @@
  * - If you don't find any food where you thought, start searching again.
  */
 
-
 #include <iostream>
-#include<vector>
+#include <vector>
 
 using namespace std;
 
 
 class World {
   public:
-    World(int rows, int cols){
-      rows_ = rows;
-      cols_ = cols;
-      grid_ = vector<vector<int> > (rows_, vector<int> (cols_, 0));
+    World(int x_dimension, int y_dimension){
+      grid_ = vector<vector<int> > (y_dimension, vector<int> (x_dimension, 0));
     }
   
-    void placeFood(int row, int col, int amount) {
-      grid_.at(row).at(col) = amount;
+    void placeFood(int x, int y, int amount) {
+      grid_.at(y).at(x) = amount;
     }
     
     bool hasFood() const {
-      for (int row = 0; row<rows_; ++row) {
-        for (int col = 0; col<cols_; ++col) {
-          if (grid_.at(row).at(col) > 0) return true;
+      for (const auto& y : grid_) {
+        for (const auto& x : y) {
+          if (x > 0) return true;
         }
+      }
+
+      return false;
+    }
+
+    bool takeFoodFrom(int x, int y) {
+      if (getAmountOfFoodAt(x, y) > 0) {
+        grid_.at(y).at(x) -= 1;
+        return true;
       }
       
       return false;
     }
   
-    int amountFood(int row, int col) const {
-      return grid_.at(row).at(col);
+    int getAmountOfFoodAt(int x, int y) const {
+      return grid_.at(y).at(x);
+    }
+
+    int getYDimension() const {
+      return size(grid_);
+    }
+
+    int getXDimension() const {
+      return size(grid_.at(0));
     }
   
   private:
-  
-  /** Grid represents the amount of food available on each grid cell. */
-  vector<vector<int> > grid_;
-  
-  int rows_;
-  int cols_;
-
+    /**
+     * Grid represents the amount of food available on each grid cell.
+     * E.g.:
+     *    y
+     *    ^
+     *    | 0 2 0 0 0 0
+     *    | 0 0 3 0 1 0
+     *    | 0 0 0 0 0 0
+     *    +-------------> x
+     *  (0,0)
+     */
+    vector<vector<int> > grid_;
 };
 
 class Ant {
   public:
-  Ant(World& world, int max_row, int max_col) :
-    world_(world),
-    row_(0), col_(0),
-    max_row_(max_row), max_col_(max_col), find_food(true) {}
-  
-  void step(){
-    moveRandom();
-    foundFood();
-  }
-  
-  bool foundFood() {
-    if (world_.amountFood(row_, col_) > 0) {
-      find_food = false;
-      return true;
-    } else {
-      return false;
-    }
-  }
-  
-  void moveRandom(){
-    int r = rand() % 4 + 1;
-    switch(r) {
-      case 0:
-        // hoch
-        if (row_ < max_row_) row_ += 1;
-        break;
-      case 1:
-        // rechts
-        if (col_ < max_col_) col_ += 1;
-        break;
-      case 2:
-        // runter
-        if (row_ > 0) row_ -= 1;
-        break;
-      case 3:
-        // links
-        if (col_ > 0) col_ -= 1;
-        break;
-      default:
-        ;
+    Ant(World& world) :
+      world_(world),
+      x_(0), y_(0),
+      looking_for_food(true) {}
+    
+    void step(){
+      moveRandom();
+      printPosition();
+      if (checkForFood()){
+        printf("Ant %d found food at [%d, %d]!\n", id_, x_, y_);
+      }
     }
     
-  }
+    bool checkForFood() {
+      if (world_.takeFoodFrom(x_, y_)) {
+        looking_for_food = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
+    void moveRandom(){
+      int r = rand() % 4;
+      switch(r) {
+        case 0:
+          // right
+          if (x_ < world_.getXDimension()-1) x_ += 1;
+          break;
+        case 1:
+          // up
+          if (y_ < world_.getYDimension()-1) y_ += 1;
+          break;
+        case 2:
+          // left
+          if (x_ > 0) x_ -= 1;
+          break;
+        case 3:
+          // down
+          if (y_ > 0) y_ -= 1;
+          break;
+        default:
+          printf("Unexpected random number for moving of Ant! %d\n", r);
+      }
+    }
+
+    void printPosition() const {
+      printf("Ant %d is at position [%d, %d]\n", id_, x_, y_);
+    }
+
+    bool lookingForFood() const { return looking_for_food; }
   
   private:
-  World& world_;
-  
-  int row_;
-  int col_;
-  int max_row_;
-  int max_col_;
-  
-  bool find_food;
+    World& world_;
+
+    int id_;    
+    int x_, y_;
+    
+    bool looking_for_food;
 };
 
 class Simulator {
   public :
   Simulator (World& world, Ant& ant) : world_(world), ant_(ant) {};
   
-  void run(){
+  void step(){
     ant_.step();
   };
   
@@ -124,22 +149,26 @@ class Simulator {
 };
 
 
-
 int main() {
-  int rows = 1000;
-  int cols = 1000;
-  World world(rows, cols);
-  world.placeFood(100, 100, 1);
+  printf("Starting program!\n");
+
+  // for (int i=0; i<25; ++i) {
+  //   int r = rand() % 4 + 1;
+  //   printf("random number=%d\n", r);
+  // }
+
+  int x_dimension = 100, y_dimension = 100;
+  World world(x_dimension, y_dimension);
+  world.placeFood(50, 50, 1);
   
-  Ant ant(world, rows, cols);
-  
+  Ant ant(world);
   Simulator simulator(world, ant);
   
-   int steps = 0;
-   while (world.hasFood()) {
-     simulator.run();
-     steps++;
-   }
+  int steps = 0, max_steps = 1000000;
+  while (world.hasFood() && steps < max_steps) {
+    simulator.step();
+    steps++;
+  }
   
   printf("=> steps: %d\n", steps);
   printf("Done\n");
