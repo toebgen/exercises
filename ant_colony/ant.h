@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <set>
 
 #include "location.h"
 #include "world.h"
@@ -14,27 +14,61 @@ class Ant {
   public:
     Ant(World& world, int id = -1);
     
-    enum class State {LOOKING_FOR_FOOD, RETURNING_HOME};
+    enum class State {
+      LOOKING_FOR_FOOD,
+      RETURNING_HOME,
+      STATE_SIZE
+    };
+
+    enum class MovingDirection {
+      UP,
+      DOWN,
+      LEFT,
+      RIGHT,
+      MOVING_DIRECTION_SIZE
+    };
 
     Location getLocation() const;
     
-    void step();    
+    /**
+     * Perform one cycle in the life of an Ant :-)
+     * Find food, ro bring food to the home base, respectively.
+     * Always ask other ants for food locations on the way.
+     */
+    void step();
     
-    bool grabFood();
-    void askForFood();
-    
+    /** Move in given direction */
+    void move(const MovingDirection moving_direction);
+    /** Move in random direction */
     void moveRandom();
-    
-    void printPosition() const;
+    /** Move towards given destination */
+    void moveTowards(const Location& destination);
 
-    bool isLookingForFood() const;
+    /** Returns true if grabbing food from current location was successful */
+    bool tryToGrabFood();
+    /** Updates foodList_ with food locations from neighboring ants, if there
+     * are any at the same location currently */
+    void askForFood();
+    /** Returns true, if siye of foodList_ is > 0 */
+    bool knowsFoodLocations() const;
+    /** Returns true, if location_ is at home base */
+    bool deliverFood();
+    /** Returns set of all known food locations */
+    std::set<Location> getFoodList() const;
+    Location getNextFoodLocation() const;
+    
+    State getState() const;
+    int getId() const;
+
+    void printPosition() const;
+    void printFoodList() const;
   
   private:
     int id_;  //!< Ant ID
     Location location_;  //!< Ant Location in World coordinates
     State state_;
 
-    std::vector<Location> foodAt_;  //!< Locations known to have food
+    std::set<Location> foodList_;  //!< Locations known to have food
 
     World& world_;
 };

@@ -13,8 +13,8 @@ struct Location {
   Location() : x(-1), y(-1) {}
   Location(const int x, const int y) : x(x), y(y) {}
 
-  std::string toString() const {
-    std::stringstream ss;
+  string toString() const {
+    stringstream ss;
     ss << '[' << x << ", " << y << ']';
     return ss.str();
   }
@@ -25,5 +25,10 @@ struct Location {
 inline bool operator==(const Location& lhs, const Location& rhs) {
   return (lhs.x == rhs.x) && (lhs.y == rhs.y);
 }
+
+inline bool operator<(const Location& lhs, const Location& rhs) {
+  return (lhs.x < rhs.x) || (lhs.y < rhs.y);
+}
+
 
 #endif

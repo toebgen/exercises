@@ -43,7 +43,8 @@ class Simulator {
   }
   
   void step(){
-    for (const auto ant : world_.ant_colony_.getAnts()) ant->step();
+    for (const auto ant : world_.ant_colony_.getAnts())
+      ant->step();
   }
   
   private:
@@ -52,26 +53,28 @@ class Simulator {
 
 }  // namespace ant_colony
 
+
 int main() {
-  printf("Starting program!\n");
+  printf("Starting ants!\n");
 
   ant_colony::Colony ant_colony;
 
-  int x_dimension = 100, y_dimension = 100;
+  const int x_dimension = 100, y_dimension = 100;
   ant_colony::World world(x_dimension, y_dimension, ant_colony);
-  world.placeFood({50, 50}, 1);
+  world.placeFood({5, 6}, 3);
+  world.placeFood({9, 8}, 3);
+  world.placeFood({93, 48}, 5);
   
   ant_colony::Simulator simulator(world);
-  simulator.createAnts(1);
+  simulator.createAnts(3);
   
-  int steps = 0, max_steps = 1000000;
-  while (world.hasFood() && steps < max_steps) {
+  int steps = 0, max_steps = 100000;
+  while (!world.isAllFoodCollected() && steps < max_steps) {
     simulator.step();
     steps++;
   }
   
-  printf("=> steps: %d\n", steps);
-  printf("Done\n");
+  printf("DONE after %d steps!\n", steps);
   
   return 0;
 }
