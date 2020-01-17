@@ -10,9 +10,12 @@
       "args": [
         "-std=c++17",
         "-stdlib=libc++",
-        "ant_colony.cpp",
+        "ant_colony_main.cpp",
+        "ant.cpp",
+        "colony.cpp",
+        "world.cpp",
         "-o",
-        "ant_colony.out",
+        "ant_colony_main.out",
         "--debug"
       ],
       "group": {

@@ -5,6 +5,7 @@
         "istream": "cpp",
         "ostream": "cpp",
         "typeinfo": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "sstream": "cpp"
     }
 }
