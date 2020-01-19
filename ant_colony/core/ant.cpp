@@ -5,9 +5,9 @@
 namespace ant_colony {
 
 Ant::Ant(World& world, int id) :
-  world_(world),
   id_(id),
-  state_(Ant::State::LOOKING_FOR_FOOD)
+  state_(Ant::State::LOOKING_FOR_FOOD),
+  world_(world)
   {
     location_ = world_.getHomeBase();
     foodList_.clear();

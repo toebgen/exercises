@@ -13,6 +13,7 @@
         "ant_colony_main.cpp",
         "ant.cpp",
         "colony.cpp",
+        "simulator.cpp",
         "world.cpp",
         "-o",
         "ant_colony_main.out",

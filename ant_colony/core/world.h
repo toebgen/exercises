@@ -45,7 +45,7 @@ class World {
     int x_dimension_, y_dimension_;
 
     /** Grid which holds the amonts of foods per grid cell */
-    vector<vector<int>> grid_;
+    vector<vector<int> > grid_;
 
     /** Total food amount that is left in whole grid */
     int amount_food_left_;
@@ -53,7 +53,7 @@ class World {
     /** Amount of food that has already been delivered to home base */
     int amount_food_in_home_base_;
 
-    /** Total amout of food that is in system (still available + in home
+    /** Total amount of food that is in system (still available + in home
      * base) */
     int total_amount_food_in_system_;
 

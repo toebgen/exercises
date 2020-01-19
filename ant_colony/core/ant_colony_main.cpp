@@ -18,40 +18,10 @@
 #include "ant.h"
 #include "colony.h"
 #include "location.h"
+#include "simulator.h"
 #include "world.h"
 
 using namespace std;
-
-namespace ant_colony {
-
-class Simulator {
-  public :
-  Simulator (World& world) :
-    world_(world)
-    {};
-
-  void createAnt() {
-    shared_ptr<Ant> new_ant = make_shared<Ant>(world_,
-      world_.ant_colony_.getNumberOfAnts() + 1);
-
-    world_.ant_colony_.addAnt(new_ant);
-  }
-
-  void createAnts(const int numberOfAnts) {
-    for (int i = 0; i < numberOfAnts; ++i)
-      createAnt();
-  }
-  
-  void step(){
-    for (const auto ant : world_.ant_colony_.getAnts())
-      ant->step();
-  }
-  
-  private:
-    World& world_;
-};
-
-}  // namespace ant_colony
 
 
 int main() {

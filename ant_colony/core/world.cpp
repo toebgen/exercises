@@ -3,12 +3,13 @@
 namespace ant_colony {
 
 World::World(int x_dimension, int y_dimension, Colony& ant_colony) :
+      ant_colony_(ant_colony),
       x_dimension_(x_dimension),
       y_dimension_(y_dimension),
       amount_food_left_(0),
       amount_food_in_home_base_(0),
-      ant_home_base_(Location(0, 0)),
-      ant_colony_(ant_colony)
+      total_amount_food_in_system_(0),
+      ant_home_base_(Location(0, 0))
 {
     grid_ = vector<vector<int> > (y_dimension, vector<int> (x_dimension, 0));
 }

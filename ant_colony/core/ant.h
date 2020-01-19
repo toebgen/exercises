@@ -21,11 +21,11 @@ class Ant {
     };
 
     enum class MovingDirection {
-      UP,
-      DOWN,
-      LEFT,
-      RIGHT,
-      MOVING_DIRECTION_SIZE
+      UP = 0,
+      DOWN = 1,
+      LEFT = 2,
+      RIGHT = 3,
+      MOVING_DIRECTION_SIZE = 4
     };
 
     Location getLocation() const;
