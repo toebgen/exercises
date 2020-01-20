@@ -15,6 +15,10 @@
 #include <string>
 #include <vector>
 
+#include <plog/Log.h>
+#include <plog/Appenders/ColorConsoleAppender.h>
+#include <plog/Formatters/MessageOnlyFormatter.h>
+
 #include "ant.h"
 #include "colony.h"
 #include "location.h"
@@ -23,10 +27,18 @@
 
 using namespace std;
 
+void init_logger() {
+  static plog::RollingFileAppender<plog::TxtFormatter>
+    fileAppender("log.txt", 8000, 3);
+  static plog::ColorConsoleAppender<plog::MessageOnlyFormatter> consoleAppender;
+  // TODO Write custom formatter that gives out object as well
+  plog::init(plog::debug, &fileAppender).addAppender(&consoleAppender);
+}
 
 int main() {
-  printf("Starting ants!\n");
-
+  init_logger();
+  PLOG_INFO << "Starting ants!";
+  
   ant_colony::Colony ant_colony;
 
   const int x_dimension = 100, y_dimension = 100;
@@ -44,7 +56,7 @@ int main() {
     steps++;
   }
   
-  printf("DONE after %d steps!\n", steps);
+  PLOG_INFO << "DONE after " << steps << " steps!";
   
   return 0;
 }

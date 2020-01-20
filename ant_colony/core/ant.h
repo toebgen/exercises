@@ -49,7 +49,7 @@ class Ant {
     /** Updates foodList_ with food locations from neighboring ants, if there
      * are any at the same location currently */
     void askForFood();
-    /** Returns true, if siye of foodList_ is > 0 */
+    /** Returns true, if size of foodList_ is > 0 */
     bool knowsFoodLocations() const;
     /** Returns true, if location_ is at home base */
     bool deliverFood();
@@ -60,8 +60,7 @@ class Ant {
     State getState() const;
     int getId() const;
 
-    void printPosition() const;
-    void printFoodList() const;
+    string getFoodListAsStr() const;
   
   private:
     int id_;  //!< Ant ID

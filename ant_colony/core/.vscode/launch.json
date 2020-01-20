@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/ant_colony_main.out",
+            "program": "${workspaceFolder}/ant_colony_main.o",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -16,7 +16,7 @@ struct Location {
   string toString() const {
     stringstream ss;
     ss << '[' << x << ", " << y << ']';
-    return ss.str();
+    return ss.str().c_str();
   }
 
   int x, y;

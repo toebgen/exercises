@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+#include <plog/Log.h>
+
 namespace ant_colony {
 
 Ant::Ant(World& world, int id) :
@@ -29,14 +31,14 @@ void Ant::step() {
     // Always try to get food, maybe there are some new sources on the way
     if (tryToGrabFood()){
       if (location_ == getNextFoodLocation()){
-        printf("Ant %d picked up food from known food location %s!\n",
-          id_, location_.toString().c_str());
+        PLOG_DEBUG << "Ant " << id_ << " picked up food from known food location "
+          << location_.toString() << "!";
       } else {
         foodList_.insert(location_);
         
-        printf("Ant %d found a new food location at %s! ",
-          id_, location_.toString().c_str());
-        printFoodList();
+        PLOG_INFO << "Ant " << id_ << " found a new food location at "
+          << location_.toString();
+        getFoodListAsStr();
       }
 
       state_ = State::RETURNING_HOME;
@@ -45,9 +47,9 @@ void Ant::step() {
         // Here should be food, but nothing found
         // --> Delete location from foodList_!
         foodList_.erase(location_);
-        printf("Ant %d erased location %s from foodList_! ",
-          id_, location_.toString().c_str());
-        printFoodList();
+        PLOG_DEBUG << "Ant " << id_ << " erased location "
+          << location_.toString() << " from foodList_!";
+        getFoodListAsStr();
       }
     }
 
@@ -56,8 +58,8 @@ void Ant::step() {
     moveTowards(world_.getHomeBase());
     if (deliverFood()) {
       state_ = State::LOOKING_FOR_FOOD;
-      printf("Ant %d delivered food at home base %s\n",
-        id_, world_.getHomeBase().toString().c_str());
+      PLOG_DEBUG << "Ant " << id_ << " delivered food at home base "
+        << world_.getHomeBase().toString();
     }
   }
 
@@ -82,32 +84,32 @@ void Ant::move(const MovingDirection moving_direction) {
       if (location_.y > 0) location_.y -= 1;
       break;
     default:
-      printf("Unexpected moving direction for moving of Ant! %d\n",
-        moving_direction);
+      PLOG_ERROR << "Unexpected moving direction for moving of Ant! "
+        << static_cast<int>(moving_direction);
   }
 }
 
 void Ant::moveTowards(const Location& destination) {
-  // printf("Ant %d is at %s, moving towards %s. ",
-  //   id_, location_.toString().c_str(), destination.toString().c_str());
+  PLOG_VERBOSE << "Ant " << id_ << " is at " << location_.toString()
+    << ", moving towards " << destination.toString();
   
   if (location_.x > destination.x) {
     move(MovingDirection::LEFT);
-    // printf("Moving LEFT! ");
+    PLOG_VERBOSE << "Moving LEFT!";
   } else if (location_.x < destination.x) {
     move(MovingDirection::RIGHT);
-    // printf("Moving RIGHT! ");
+    PLOG_VERBOSE << "Moving RIGHT!";
   }
 
   if (location_.y < destination.y) {
     move(MovingDirection::UP);
-    // printf("Moving UP! ");
+    PLOG_VERBOSE << "Moving UP!";
   } else if (location_.y > destination.y) {
     move(MovingDirection::DOWN);
-    // printf("Moving DOWN! ");
+    PLOG_VERBOSE << "Moving DOWN!";
   }
 
-  // printf("It\'s now at %s.\n", location_.toString().c_str());
+  PLOG_VERBOSE << "It\'s now at " << location_.toString();
 }
 
 void Ant::moveRandom() {
@@ -131,9 +133,8 @@ void Ant::askForFood() {
       for (const auto& food_location : other_ant->getFoodList()) {
         foodList_.insert(food_location);
       }
-      printf("Ant %d got food locations from Ant %d. ",
-        id_, other_ant->getId());
-      printFoodList();
+      PLOG_DEBUG << "Ant " << id_ << " got food locations from Ant "
+        << other_ant->getId() << ": " << getFoodListAsStr();
     }
   }
 }
@@ -167,19 +168,14 @@ int Ant::getId() const {
   return id_;
 }
 
-void Ant::printPosition() const {
-  printf("Ant %d is at position %s\n", id_, location_.toString().c_str());
-}
-
-void Ant::printFoodList() const {
+string Ant::getFoodListAsStr() const {
   stringstream ss;
   ss << " foodList_: [ ";
   for (const auto& food_location : foodList_) {
     ss << food_location.toString() << ", ";
   }
-  ss << " ]" << endl;
-
-  printf("%s", ss.str().c_str());
+  ss << " ]";
+  return ss.str().c_str();
 }
 
 }  // namespace ant_colony

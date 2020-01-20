@@ -1,5 +1,7 @@
 #include "world.h"
 
+#include <plog/Log.h>
+
 namespace ant_colony {
 
 World::World(int x_dimension, int y_dimension, Colony& ant_colony) :
@@ -33,8 +35,9 @@ void World::placeFood(const Location& loc, const int amount) {
     amount_food_left_ += amount;
     total_amount_food_in_system_ += amount;
 
-    printf("Placed %d food at %s. Total in the world is %d.\n",
-        amount, loc.toString().c_str(), total_amount_food_in_system_);
+    PLOG_INFO << "Placed " << amount << " food at " << loc.toString().c_str() 
+        << ". Total amout of food in the world is "
+        << total_amount_food_in_system_ << ".";
 }
 
 bool World::hasFood() const {
@@ -53,9 +56,9 @@ bool World::takeFoodFrom(const Location& loc) {
         grid_.at(loc.y).at(loc.x) -= 1;
         amount_food_left_ -= 1;
 
-        printf("1 food has been taken from location %s. %d left here, %d left in total!\n",
-            loc.toString().c_str(),
-            getAmountOfFoodAt(loc), amount_food_left_);
+        PLOG_DEBUG << "1 food has been taken from location "
+            << loc.toString().c_str() << ". " << getAmountOfFoodAt(loc) 
+            << " is left here, " << amount_food_left_ << " is left in total!";
 
         return true;
     }
