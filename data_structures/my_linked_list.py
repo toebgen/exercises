@@ -147,3 +147,29 @@ class MyLinkedList():
                 node = node.append(d)
         
         return root
+
+
+class MyLinkedListTools():
+    """
+    Collection of tools for MyLinkedList.
+    """
+
+    @staticmethod
+    def reverse(linked_list):
+        """ Returns reversed copy of given linked_list """
+        if (linked_list.next == None):
+            return MyLinkedList(linked_list.key)
+        
+        reversed = MyLinkedListTools.reverse(linked_list.next).append(linked_list.key)
+        return reversed
+
+
+    @staticmethod
+    def is_palindrome(linked_list):
+        """
+        Checks if given list in reversed order equals given list, i.e. is a
+        palindrome.
+        """
+        reversed_list = MyLinkedListTools.reverse(linked_list)
+        is_equal = (reversed_list == linked_list)
+        return is_equal

@@ -1,6 +1,9 @@
 *.out
+*.o
 *.plist
 *.pyc
 .DS_Store
 .vscode/.ropeproject/*
 crawlfiles*
+data_structures/.vscode
+.vscode

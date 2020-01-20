@@ -1,6 +1,6 @@
 import unittest
 
-from my_linked_list import MyLinkedList
+from my_linked_list import MyLinkedList, MyLinkedListTools
 
 
 class TestMyLinkedList(unittest.TestCase):
@@ -64,6 +64,37 @@ class TestMyLinkedList(unittest.TestCase):
         l2 = MyLinkedList.create_from_list([5, 9 ,2])
         expected = [2, 1, 9]
         self.assertEqual(expected, MyLinkedList.as_list(MyLinkedList.add_lists(l1, l2)))
+
+
+class TestMyLinkedListTools(unittest.TestCase):
+    
+    def setUp(self):
+        self.test_cases = [
+            # test_case, reversed, is_palindrome
+            ([1, 2, 3], [3, 2, 1], False),
+            ([1, 2, 1], [1, 2, 1], True),
+
+            (['a', 'b', 'c'], ['c', 'b', 'a'], False),
+            (['a', 'b', 'a'], ['a', 'b', 'a'], True),
+
+            # (['abc'], ['cba'], False),
+            # (['aba'], ['aba'], True),
+        ]
+
+
+    def test_reverse(self):
+        for test_case, expected_reversed, _ in self.test_cases:
+            linked_list = MyLinkedList.create_from_list(test_case)
+            reversed_linked_list = MyLinkedListTools.reverse(linked_list)
+            reversed_list = reversed_linked_list.to_list()
+            self.assertEqual(expected_reversed, reversed_list)
+        pass
+        
+    
+    def test_is_palindrome(self):
+        for test_case, _, is_palindrome in self.test_cases:
+            linked_list = MyLinkedList.create_from_list(test_case)
+            self.assertEqual(MyLinkedListTools.is_palindrome(linked_list), is_palindrome)
 
 
 if __name__ == '__main__':
