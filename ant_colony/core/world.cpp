@@ -29,7 +29,7 @@ void World::placeFood(const Location &loc, const int amount) {
   amount_food_left_ += amount;
   total_amount_food_in_system_ += amount;
 
-  PLOG_INFO << "Placed " << amount << " food at " << loc.toString().c_str()
+  PLOG_INFO << "Placed " << amount << " food at " << loc.toString()
             << ". Total amout of food in the world is "
             << total_amount_food_in_system_ << ".";
 }
@@ -50,10 +50,9 @@ bool World::takeFoodFrom(const Location &loc) {
     grid_.at(loc.y).at(loc.x) -= 1;
     amount_food_left_ -= 1;
 
-    PLOG_DEBUG << "1 food has been taken from location "
-               << loc.toString().c_str() << ". " << getAmountOfFoodAt(loc)
-               << " is left here, " << amount_food_left_
-               << " is left in total!";
+    PLOG_DEBUG << "1 food has been taken from location " << loc.toString()
+               << ". " << getAmountOfFoodAt(loc) << " is left here, "
+               << amount_food_left_ << " is left in total!";
 
     return true;
   }

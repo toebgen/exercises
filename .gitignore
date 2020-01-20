@@ -8,3 +8,5 @@ crawlfiles*
 data_structures/.vscode
 .vscode
 log*
+ant_colony/core/CMakeFiles
+ant_colony/build

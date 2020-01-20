@@ -10,6 +10,8 @@ Ant::Ant(World &world, int id)
     : id_(id), state_(Ant::State::LOOKING_FOR_FOOD), world_(world) {
   location_ = world_.getHomeBase();
   foodList_.clear();
+
+  PLOG_VERBOSE << "Ant() with id " << id_ << " created!";
 }
 
 Location Ant::getLocation() const { return location_; }
@@ -18,8 +20,13 @@ void Ant::step() {
   if (state_ == State::LOOKING_FOR_FOOD) {
     // Deal with the food location first
     if (knowsFoodLocations()) {
+      PLOG_VERBOSE << "Ant " << id_ << " is at " << location_.toString()
+                   << " and is moving towards "
+                   << getNextFoodLocation().toString();
       moveTowards(getNextFoodLocation());
     } else {
+      PLOG_VERBOSE << "Ant " << id_ << " is at " << location_.toString()
+                   << " and is moving randomly.";
       moveRandom();
     }
 
@@ -68,20 +75,36 @@ void Ant::step() {
 void Ant::move(const MovingDirection moving_direction) {
   switch (moving_direction) {
   case MovingDirection::RIGHT:
-    if (location_.x < world_.getXDimension() - 1)
+    if (location_.x < world_.getXDimension() - 1) {
+      PLOG_VERBOSE << "Moving RIGHT!";
       location_.x += 1;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
     break;
   case MovingDirection::UP:
-    if (location_.y < world_.getYDimension() - 1)
+    if (location_.y < world_.getYDimension() - 1) {
+      PLOG_VERBOSE << "Moving UP!";
       location_.y += 1;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
     break;
   case MovingDirection::LEFT:
-    if (location_.x > 0)
+    if (location_.x > 0) {
+      PLOG_VERBOSE << "Moving LEFT!";
       location_.x -= 1;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
     break;
   case MovingDirection::DOWN:
-    if (location_.y > 0)
+    if (location_.y > 0) {
+      PLOG_VERBOSE << "Moving DOWN!";
       location_.y -= 1;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
     break;
   default:
     PLOG_ERROR << "Unexpected moving direction for moving of Ant! "
@@ -90,23 +113,16 @@ void Ant::move(const MovingDirection moving_direction) {
 }
 
 void Ant::moveTowards(const Location &destination) {
-  PLOG_VERBOSE << "Ant " << id_ << " is at " << location_.toString()
-               << ", moving towards " << destination.toString();
-
   if (location_.x > destination.x) {
     move(MovingDirection::LEFT);
-    PLOG_VERBOSE << "Moving LEFT!";
   } else if (location_.x < destination.x) {
     move(MovingDirection::RIGHT);
-    PLOG_VERBOSE << "Moving RIGHT!";
   }
 
   if (location_.y < destination.y) {
     move(MovingDirection::UP);
-    PLOG_VERBOSE << "Moving UP!";
   } else if (location_.y > destination.y) {
     move(MovingDirection::DOWN);
-    PLOG_VERBOSE << "Moving DOWN!";
   }
 
   PLOG_VERBOSE << "It\'s now at " << location_.toString();
@@ -158,6 +174,8 @@ Ant::State Ant::getState() const { return state_; }
 
 int Ant::getId() const { return id_; }
 
+string_view Ant::getType() const { return "Ant"; }
+
 string Ant::getFoodListAsStr() const {
   stringstream ss;
   ss << " foodList_: [ ";
@@ -167,5 +185,51 @@ string Ant::getFoodListAsStr() const {
   ss << " ]";
   return ss.str().c_str();
 }
+
+QuickAnt::QuickAnt(World &world, int id) : Ant(world, id), step_size_(2) {
+  PLOG_VERBOSE << "QuickAnt() with id " << id_ << " created!";
+}
+
+void QuickAnt::move(const MovingDirection moving_direction) {
+  switch (moving_direction) {
+  case MovingDirection::RIGHT:
+    if (location_.x < world_.getXDimension() - step_size_) {
+      PLOG_VERBOSE << "Moving RIGHT!";
+      location_.x += step_size_;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
+    break;
+  case MovingDirection::UP:
+    if (location_.y < world_.getYDimension() - step_size_) {
+      PLOG_VERBOSE << "Moving UP!";
+      location_.y += step_size_;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
+    break;
+  case MovingDirection::LEFT:
+    if (location_.x - step_size_ > 0) {
+      PLOG_VERBOSE << "Moving LEFT!";
+      location_.x -= step_size_;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
+    break;
+  case MovingDirection::DOWN:
+    if (location_.y - step_size_ > 0) {
+      PLOG_VERBOSE << "Moving DOWN!";
+      location_.y -= step_size_;
+    } else {
+      PLOG_VERBOSE << "Cannot move there, would fall off the world otherwise.";
+    }
+    break;
+  default:
+    PLOG_ERROR << "Unexpected moving direction for moving of Ant! "
+               << static_cast<int>(moving_direction);
+  }
+}
+
+string_view QuickAnt::getType() const { return "QuickAnt"; }
 
 } // namespace ant_colony

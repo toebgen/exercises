@@ -11,6 +11,8 @@ public:
   void createAnt();
   void createAnts(const int numberOfAnts);
 
+  void createQuickAnt();
+
   void step();
 
 private:

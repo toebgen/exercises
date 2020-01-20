@@ -28,13 +28,13 @@ public:
 
   /**
    * Perform one cycle in the life of an Ant :-)
-   * Find food, ro bring food to the home base, respectively.
+   * Find food, or bring food to the home base, respectively.
    * Always ask other ants for food locations on the way.
    */
   void step();
 
   /** Move in given direction */
-  void move(const MovingDirection moving_direction);
+  virtual void move(const MovingDirection moving_direction);
   /** Move in random direction */
   void moveRandom();
   /** Move towards given destination */
@@ -55,10 +55,11 @@ public:
 
   State getState() const;
   int getId() const;
+  virtual string_view getType() const;
 
   string getFoodListAsStr() const;
 
-private:
+protected:
   int id_;            //!< Ant ID
   Location location_; //!< Ant Location in World coordinates
   State state_;
@@ -66,6 +67,24 @@ private:
   std::set<Location> foodList_; //!< Locations known to have food
 
   World &world_;
+
+private:
+};
+
+/**
+ * Quick Ant, that has a bigger step size than a regular Ant.
+ * Design doesn't really make sense, that's just for practice...
+ */
+class QuickAnt : public Ant {
+public:
+  QuickAnt(World &world, int id = -1);
+
+  virtual void move(const MovingDirection moving_direction);
+
+  virtual string_view getType() const;
+
+private:
+  int step_size_;
 };
 
 } // namespace ant_colony

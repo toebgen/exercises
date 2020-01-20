@@ -6,6 +6,7 @@
         "ostream": "cpp",
         "typeinfo": "cpp",
         "memory": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "string_view": "cpp"
     }
 }

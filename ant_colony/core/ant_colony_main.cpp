@@ -45,10 +45,11 @@ int main() {
   ant_colony::World world(x_dimension, y_dimension, ant_colony);
   world.placeFood({5, 6}, 3);
   world.placeFood({9, 8}, 3);
-  world.placeFood({93, 48}, 5);
+  world.placeFood({94, 48}, 5);
 
   ant_colony::Simulator simulator(world);
-  simulator.createAnts(3);
+  simulator.createAnts(1);
+  simulator.createQuickAnt();
 
   int steps = 0, max_steps = 100000;
   while (!world.isAllFoodCollected() && steps < max_steps) {
