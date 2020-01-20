@@ -3,8 +3,8 @@
 #ifndef LOCATION_H_
 #define LOCATION_H_
 
-#include <string>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -22,13 +22,12 @@ struct Location {
   int x, y;
 };
 
-inline bool operator==(const Location& lhs, const Location& rhs) {
+inline bool operator==(const Location &lhs, const Location &rhs) {
   return (lhs.x == rhs.x) && (lhs.y == rhs.y);
 }
 
-inline bool operator<(const Location& lhs, const Location& rhs) {
+inline bool operator<(const Location &lhs, const Location &rhs) {
   return (lhs.x < rhs.x) || (lhs.y < rhs.y);
 }
-
 
 #endif
