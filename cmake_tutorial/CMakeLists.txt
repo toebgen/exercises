@@ -28,4 +28,9 @@ add_subdirectory(lib/math)
 
 add_executable(hello_world main.cpp)
 
+find_package(Boost 1.65 REQUIRED)
+message("Boost Found")
+include_directories(${Boost_INCLUDE_DORS})
+target_link_libraries(hello_world ${Boost_LIBRARIES})
+
 target_link_libraries(hello_world math)
