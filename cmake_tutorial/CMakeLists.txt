@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(CMakeHello)
 
-
 # Disable in-source builds to prevent source tree corruption
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(FATAL_ERROR "In-Source builds are not allowed!")
@@ -16,7 +15,17 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     add_definitions(-DCMAKEMACROSAMPLE="Linux")
 endif()
 
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    message("Debug Build")
+elseif(${CMAKE_BUILD_TYPE} MATCHES Release)
+    message("Release Build")
+else()
+    message("Build type not defined")
+endif()
+
 set(CMAKE_CXX_STANDARD 14)
+
+# Add flags, keep previously existing ones as well
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
