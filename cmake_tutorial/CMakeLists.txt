@@ -24,8 +24,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
 message(${CMAKE_BINARY_DIR})
 
-add_library(math SHARED lib/math/operations.cpp)
-# add_library(math STATIC lib/math/operations.cpp)
+add_subdirectory(lib/math)
 
 add_executable(hello_world main.cpp)
 
